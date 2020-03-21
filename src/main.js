@@ -3,8 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-// CSS
-import "@/assets/css/tailwind.css";
+// FontAwesome.
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+
+// Tailwind.
+import "@/assets/css/global.css";
 
 Vue.config.productionTip = false;
 
