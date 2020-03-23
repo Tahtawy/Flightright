@@ -37,10 +37,15 @@
         </label>
       </div>
 
-      <ValidationObserver tag="div" ref="secondaryFormObserver" v-slot="{ invalid }" slim>
+      <ValidationObserver
+        tag="div"
+        ref="secondaryFormObserver"
+        v-slot="{ invalid }"
+        slim
+      >
         <form
           class="secondary-passenger"
-          @submit.prevent="$emit('onSubmitSecondaryPassenger', familyMembers)"
+          @submit.prevent="submitStepTwoForm({ familyMembers, $refs })"
           action="#"
         >
           <!-- Family member -->
@@ -53,7 +58,11 @@
               <fieldset>
                 <div class="flex flex-wrap -mx-3">
                   <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <ValidationProvider mode="aggressive" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                      mode="lazy"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
                       <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         :id="`passenger-first-name-${index}`"
@@ -61,13 +70,22 @@
                         type="text"
                         placeholder="Jane"
                         v-model="familyMember.firstName"
-                        :class="{'border-red-500': errors.length}"
+                        :class="{ 'border-red-500': errors.length }"
                       />
-                      <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                      <p
+                        v-if="errors.length"
+                        class="text-red-500 text-xs italic"
+                      >
+                        {{ errors[0] }}
+                      </p>
                     </ValidationProvider>
                   </div>
                   <div class="w-full md:w-1/3 px-3">
-                    <ValidationProvider mode="aggressive" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                      mode="lazy"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
                       <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         :id="`passenger-last-name-${index}`"
@@ -75,22 +93,36 @@
                         type="text"
                         placeholder="Doe"
                         v-model="familyMember.lastName"
-                        :class="{'border-red-500': errors.length}"
+                        :class="{ 'border-red-500': errors.length }"
                       />
-                      <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                      <p
+                        v-if="errors.length"
+                        class="text-red-500 text-xs italic"
+                      >
+                        {{ errors[0] }}
+                      </p>
                     </ValidationProvider>
                   </div>
                   <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <ValidationProvider mode="aggressive" :rules="{required: true, regex: /^([0-9]+)$/}" v-slot="{ errors }">
+                    <ValidationProvider
+                      mode="lazy"
+                      :rules="{ required: true, regex: /^([0-9]+)$/ }"
+                      v-slot="{ errors }"
+                    >
                       <input
                         class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         :id="`passenger-age-${index}`"
                         name="age"
                         type="number"
                         v-model="familyMember.age"
-                        :class="{'border-red-500': errors.length}"
+                        :class="{ 'border-red-500': errors.length }"
                       />
-                      <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                      <p
+                        v-if="errors.length"
+                        class="text-red-500 text-xs italic"
+                      >
+                        {{ errors[0] }}
+                      </p>
                     </ValidationProvider>
                   </div>
                 </div>
@@ -119,7 +151,7 @@
               type="submit"
               :disabled="invalid"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              :class="{'opacity-50 cursor-not-allowed': invalid}"
+              :class="{ 'opacity-50 cursor-not-allowed': invalid }"
             >
               Submit
             </button>
@@ -127,18 +159,17 @@
         </form>
       </ValidationObserver>
     </div>
+    <notifications group="submitSuccess" />
   </div>
 </template>
 
 <script type="text/javascript">
-// import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
-import { required, email, min, regex } from "vee-validate/dist/rules";
+import { required, regex } from "vee-validate/dist/rules";
 
 extend("required", required);
-extend("email", email);
-extend("min", min);
 extend("regex", regex);
 
 export default {
@@ -154,17 +185,14 @@ export default {
   // variables
   data() {
     return {
-      addMultibleMembers: false,
-      familyMembers: [
-        {
-          firstName: "",
-          lastName: "",
-          age: null
-        }
-      ]
+      addMultibleMembers: false
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      familyMembers: state => state.secondary_passenger_data
+    })
+  },
   // when component uses other components
   components: {
     ValidationProvider,
@@ -173,19 +201,22 @@ export default {
   // methods
   watch: {},
   methods: {
+    ...mapActions(["submitStepTwoForm"]),
+    ...mapMutations({
+      setSecondaryPassengerData: "SET_SECONDARY_PASSENGER_DATA"
+    }),
     addMember() {
-      this.familyMembers = [
+      this.setSecondaryPassengerData([
         ...this.familyMembers,
         {
           firstName: "",
           lastName: "",
           age: null
         }
-      ];
+      ]);
     },
     removeMemberAt(memberIndex) {
       this.familyMembers.splice(memberIndex, 1);
-      console.log("this.familyMembers", this.familyMembers);
     }
   },
   // component Lifecycle hooks

@@ -6,10 +6,14 @@
       >
         primary passenger
       </h1>
-      <ValidationObserver tag="div" ref="primaryFormObserver" v-slot="{ invalid }">
+      <ValidationObserver
+        tag="div"
+        ref="primaryFormObserver"
+        v-slot="{ invalid }"
+      >
         <form
           class="primary-passenger"
-          @submit.prevent="submitPrimaryPassenger()"
+          @submit.prevent="submitStepOneForm(primaryPassengerData)"
           action="#"
         >
           <!-- Full Name -->
@@ -22,7 +26,13 @@
                 >
                   First Name <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="first name" mode="aggressive" rules="required" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="first name"
+                  mode="aggressive"
+                  rules="required"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="passenger-first-name"
@@ -30,9 +40,11 @@
                     type="text"
                     placeholder="Jane"
                     v-model="primaryPassengerData.firstName"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
               <div class="w-full md:w-1/2 px-3">
@@ -42,7 +54,13 @@
                 >
                   Last Name <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="last name" mode="aggressive" rules="required" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="last name"
+                  mode="aggressive"
+                  rules="required"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="passenger-last-name"
@@ -50,9 +68,11 @@
                     type="text"
                     placeholder="Doe"
                     v-model="primaryPassengerData.lastName"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
             </div>
@@ -68,16 +88,24 @@
                 >
                   Email <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="email" mode="aggressive" rules="required|email" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="email"
+                  mode="aggressive"
+                  rules="required|email"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="passenger-email"
                     type="text"
                     placeholder="example@mail.com"
                     v-model="primaryPassengerData.email"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
               <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -87,16 +115,24 @@
                 >
                   Age <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="age" mode="aggressive" :rules="{required: true, regex: /^([0-9]+)$/}" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="age"
+                  mode="aggressive"
+                  :rules="{ required: true, regex: /^([0-9]+)$/ }"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="passenger-age"
                     name="age"
                     type="text"
                     v-model="primaryPassengerData.age"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
               <div class="w-full md:w-1/3 px-3">
@@ -106,7 +142,13 @@
                 >
                   Phone <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="phone" mode="aggressive" :rules="{required: true, min: 11}" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="phone"
+                  mode="aggressive"
+                  :rules="{ required: true, min: 11 }"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="passenger-phone"
@@ -114,9 +156,11 @@
                     type="text"
                     placeholder="must be 11 number ex: 01025414587"
                     v-model="primaryPassengerData.phone"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
             </div>
@@ -133,13 +177,19 @@
                   Country <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
-                  <ValidationProvider name="country" mode="aggressive" rules="required" v-slot="{ errors }" tag="div">
+                  <ValidationProvider
+                    name="country"
+                    mode="aggressive"
+                    rules="required"
+                    v-slot="{ errors }"
+                    tag="div"
+                  >
                     <select
                       class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="passenger-country"
                       name="country"
                       v-model="primaryPassengerData.country"
-                      :class="{'border-red-500': errors.length}"
+                      :class="{ 'border-red-500': errors.length }"
                     >
                       <option value=""></option>
                       <option value="1">New Mexico</option>
@@ -159,7 +209,9 @@
                         />
                       </svg>
                     </div>
-                    <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                    <p v-if="errors.length" class="text-red-500 text-xs italic">
+                      {{ errors[0] }}
+                    </p>
                   </ValidationProvider>
                 </div>
               </div>
@@ -170,7 +222,13 @@
                 >
                   Street <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="street" mode="aggressive" :rules="{required: true}" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="street"
+                  mode="aggressive"
+                  :rules="{ required: true }"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="passenger-street"
@@ -178,9 +236,11 @@
                     type="text"
                     placeholder="Albuquerque"
                     v-model="primaryPassengerData.street"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
               <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -190,7 +250,13 @@
                 >
                   Index/Zip <span class="text-red-500">*</span>
                 </label>
-                <ValidationProvider name="ZIP" mode="aggressive" :rules="{required: true}" v-slot="{ errors }" tag="div">
+                <ValidationProvider
+                  name="ZIP"
+                  mode="aggressive"
+                  :rules="{ required: true }"
+                  v-slot="{ errors }"
+                  tag="div"
+                >
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="passenger-zip"
@@ -198,9 +264,11 @@
                     type="text"
                     placeholder="90210"
                     v-model="primaryPassengerData.zip"
-                    :class="{'border-red-500': errors.length}"
+                    :class="{ 'border-red-500': errors.length }"
                   />
-                  <p v-if="errors.length" class="text-red-500 text-xs italic">{{ errors[0] }}</p>
+                  <p v-if="errors.length" class="text-red-500 text-xs italic">
+                    {{ errors[0] }}
+                  </p>
                 </ValidationProvider>
               </div>
             </div>
@@ -212,7 +280,7 @@
               type="submit"
               :disabled="invalid"
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              :class="{'opacity-50 cursor-not-allowed': invalid}"
+              :class="{ 'opacity-50 cursor-not-allowed': invalid }"
             >
               Submit
             </button>
@@ -224,7 +292,7 @@
 </template>
 
 <script type="text/javascript">
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
 import { required, email, min, regex } from "vee-validate/dist/rules";
@@ -246,21 +314,13 @@ export default {
   },
   // variables
   data() {
-    return {
-      primaryPassengerData: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        age: null,
-        phone: null,
-        country: null,
-        street: "",
-        zip: ""
-      }
-    };
+    return {};
   },
   computed: {
-    ...mapState({ isStepOneCompleted: state => state.is_step_one_completed })
+    ...mapState({
+      isStepOneCompleted: state => state.is_step_one_completed,
+      primaryPassengerData: state => state.primary_passenger_data
+    })
   },
   // when component uses other components
   components: {
@@ -280,14 +340,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["submitStepOneForm"]),
     ...mapMutations({
-      setIsStepOneCompleted: "SET_IS_STEP_ONE_COMPLETED",
-      setCurrentStep: "SET_CURRENT_STEP"
-    }),
-    submitPrimaryPassenger() {
-      this.setIsStepOneCompleted(true);
-      this.setCurrentStep(2);
-    }
+      setIsStepOneCompleted: "SET_IS_STEP_ONE_COMPLETED"
+    })
   },
   // component Lifecycle hooks
   beforeCreate() {},
