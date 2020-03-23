@@ -3,14 +3,14 @@
     <div
       class="text-white p-4 rounded-tl rounded-bl cursor-pointer"
       :class="currentStep === 1 ? 'bg-blue-700' : 'bg-blue-500'"
-      @click="$emit('setCurrentStep', 1)"
+      @click="setCurrentStep(1)"
     >
       Step One
     </div>
     <div
       class="text-white p-4 rounded-tr rounded-br cursor-pointer"
-      :class="currentStep === 2 ? 'bg-blue-700' : 'bg-blue-500'"
-      @click="$emit('setCurrentStep', 2)"
+      :class="[(currentStep === 2 ? 'bg-blue-700' : 'bg-blue-500'), (!isStepOneCompleted ? 'cursor-not-allowed opacity-50' : '')]"
+      @click="setCurrentStep(2)"
     >
       Step Two
     </div>
@@ -18,6 +18,8 @@
 </template>
 
 <script type="text/javascript">
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "Steps",
   // share common functionality with component mixins
@@ -25,20 +27,24 @@ export default {
   // compose new components
   extends: {},
   // component properties/variables
-  props: {
-    currentStep: Number,
-    setCurrentStep: Function
-  },
+  props: {},
   // variables
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      currentStep: state => state.current_step,
+      isStepOneCompleted: state => state.is_step_one_completed
+    })
+  },
   // when component uses other components
   components: {},
   // methods
   watch: {},
-  methods: {},
+  methods: {
+    ...mapMutations({ setCurrentStep: "SET_CURRENT_STEP" })
+  },
   // component Lifecycle hooks
   beforeCreate() {},
   mounted() {}

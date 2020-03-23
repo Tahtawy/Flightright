@@ -10,6 +10,11 @@ import "@fortawesome/fontawesome-free/js/all.js";
 // Tailwind.
 import "@/assets/css/global.css";
 
+// VeeValidate.
+import { localize } from "vee-validate";
+import en from "vee-validate/dist/locale/en.json";
+localize({ en });
+
 Vue.config.productionTip = false;
 
 new Vue({
