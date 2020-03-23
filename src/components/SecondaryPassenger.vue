@@ -8,41 +8,53 @@
       </h1>
 
       <label class="flex items-center mb-4 w-4/12">
-        <input type="checkbox" class="form-checkbox" v-model="addMultibleMembers" />
+        <input
+          type="checkbox"
+          class="form-checkbox"
+          v-model="addMultibleMembers"
+        />
         <span class="ml-2">Add multible family member</span>
       </label>
 
       <div class="flex flex-wrap -mx-1 md:w-11/12">
         <label
           class="w-full md:w-1/3 block uppercase tracking-wide text-gray-700 text-xs font-bold px-2 mb-2"
-          for="passenger-first-name">
+          for="passenger-first-name"
+        >
           First Name
         </label>
         <label
           class="w-full md:w-1/3 block uppercase tracking-wide text-gray-700 text-xs font-bold px-3 mb-2"
-          for="passenger-last-name">
+          for="passenger-last-name"
+        >
           Last Name
         </label>
         <label
           class="w-full md:w-1/3 block uppercase tracking-wide text-gray-700 text-xs font-bold px-5 mb-2"
-          for="passenger-age">
+          for="passenger-age"
+        >
           Age
         </label>
       </div>
 
-      <form class="secondary-passenger">
+      <form
+        class="secondary-passenger"
+        @submit.prevent="$emit('onSubmitSecondaryPassenger', familyMembers)"
+        action="#"
+      >
         <!-- Family member -->
         <div
           v-for="(familyMember, index) in familyMembers"
           :key="index"
-          class="flex flex-wrap -mx-3">
+          class="flex flex-wrap -mx-3"
+        >
           <div class="w-full md:w-11/12 px-3">
-            <fieldset class>
+            <fieldset>
               <div class="flex flex-wrap -mx-3">
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="passenger-first-name"
+                    :id="`passenger-first-name-${index}`"
                     type="text"
                     placeholder="Jane"
                     v-model="familyMember.firstName"
@@ -51,7 +63,7 @@
                 <div class="w-full md:w-1/3 px-3">
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="passenger-last-name"
+                    :id="`passenger-last-name-${index}`"
                     type="text"
                     placeholder="Doe"
                     v-model="familyMember.lastName"
@@ -60,7 +72,7 @@
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <input
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="passenger-age"
+                    :id="`passenger-age-${index}`"
                     type="number"
                     v-model="familyMember.age"
                   />
@@ -68,19 +80,27 @@
               </div>
             </fieldset>
           </div>
-          <div 
+          <div
             v-if="addMultibleMembers"
             class="w-full md:w-1/12 px-3 mb-6 md:mb-0 text-red-600 cursor-pointer"
-            @click="removeMemberAt(index)">
+            @click="removeMemberAt(index)"
+          >
             <i class="fas fa-times-circle"></i>
           </div>
         </div>
 
-        <p v-if="addMultibleMembers" class="underline cursor-pointer" @click="addMember">Add more members</p>
+        <p
+          v-if="addMultibleMembers"
+          class="underline cursor-pointer"
+          @click="addMember"
+        >
+          Add more members
+        </p>
 
         <!-- Actions -->
         <div class="flex justify-end mt-4">
           <button
+            type="submit"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Submit
@@ -99,7 +119,9 @@ export default {
   // compose new components
   extends: {},
   // component properties/variables
-  props: {},
+  props: {
+    onSubmitSecondaryPassenger: Function
+  },
   // variables
   data() {
     return {
