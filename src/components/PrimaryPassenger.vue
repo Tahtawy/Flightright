@@ -6,7 +6,7 @@
       >
         primary passenger
       </h1>
-      <ValidationObserver tag="div" ref="observer" v-slot="{ invalid }">
+      <ValidationObserver tag="div" ref="primaryFormObserver" v-slot="{ invalid }">
         <form
           class="primary-passenger"
           @submit.prevent="submitPrimaryPassenger()"
@@ -272,7 +272,7 @@ export default {
     primaryPassengerData: {
       async handler() {
         if (this.isStepOneCompleted) {
-          const isValid = await this.$refs.observer.validate();
+          const isValid = await this.$refs.primaryFormObserver.validate();
           if (!isValid) this.setIsStepOneCompleted(false);
         }
       },
